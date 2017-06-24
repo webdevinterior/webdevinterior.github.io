@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Local Storage</h1>
+  <input id="dataToSave" type="text">
+  <button onclick="saveToStorage()">Salvar</button>
+  <button onclick="removeFromStorage('Webdev')">Remover</button>  
+
+  <script>
+    var inputData = document.querySelector('#dataToSave');
+    
+    (function () {
+      var storageData = window.localStorage.getItem('Webdev');
+      if(storageData) {
+        inputData.value = storageData;
+      }
+    })();
+
+    function saveToStorage() {
+      var inputValue = inputData.value;
+      window.localStorage.setItem('Webdev', inputValue);
+    }
+
+    function removeFromStorage(key) {
+      window.localStorage.removeItem(key);
+      inputData.value = '';
+    }    
+  </script>
+</body>
+</html>

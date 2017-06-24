@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script>
+    navigator.getMedia = ( navigator.getUserMedia ||
+                          navigator.webkitGetUserMedia ||
+                          navigator.mozGetUserMedia ||
+                          navigator.msGetUserMedia);
+
+    navigator.getMedia (
+
+      // permissoes
+      {
+          video: true,
+          audio: true
+      },
+
+      // callbackSucesso
+      function(localMediaStream) {
+          var video = document.querySelector('video');
+          video.src = window.URL.createObjectURL(localMediaStream);
+          video.onloadedmetadata = function(e) {
+            // Faz algo com o vídeo aqui.
+          };
+      },
+
+      // callbackErro
+      function(err) {
+        console.log("O seguinte erro ocorreu: " + err);
+      }
+
+    );
+
+
+    var scale = 0.25;
+    var resultContainer;
+    var captureImage = function() {
+        var canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth * scale;
+        canvas.height = video.videoHeight * scale;
+        canvas.getContext('2d')
+              .drawImage(video, 0, 0, canvas.width, canvas.height);
+ 
+        var img = document.createElement("img");
+        img.src = canvas.toDataURL();
+
+        resultContainer = document.querySelector('.result');
+        resultContainer.innerHTML = '';
+        resultContainer.appendChild(img);
+    };        
+  </script>  
+</head>
+<body>
+    <video id="video" muted loop autoplay>
+      <source src="/assets/test.mp4"></source>
+      <source src="/assets/test.webm"></source>
+    </video>
+
+    <button onclick="captureImage();">Capturar Imagem</button>
+
+    <div class="result">Imagem aparecerá aqui</div>
+</body>
+</html>
